@@ -1,4 +1,4 @@
-package com.example.listdemo;
+package com.example.listdemo.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

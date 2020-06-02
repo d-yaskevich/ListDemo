@@ -1,4 +1,4 @@
-package com.example.listdemo;
+package com.example.listdemo.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,25 +11,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.listdemo.R;
+import com.example.listdemo.models.Banner;
+import com.example.listdemo.models.User;
+import com.example.listdemo.models.UserListItem;
+
 import java.util.ArrayList;
 
-public class UserAdapter extends ArrayAdapter<User> {
+public class UserAdapter extends ArrayAdapter<UserListItem> {
 
     private final int USER_TYPE = 1;
     private final int BANNER_TYPE = 2;
 
     public UserAdapter(@NonNull Context context, ArrayList<User> users) {
         super(context, R.layout.user_list_item);
-        clear();
-        int[] bannerIndex = {3, 5};
-        for (int index : bannerIndex) {
-            if (index < users.size()) {
-                users.add(index, null);
-            } else {
-                users.add(null);
-            }
-        }
-        addAll(users);
+        addAll(Banner.getBannerUserList(users));
     }
 
     @NonNull
@@ -49,7 +45,7 @@ public class UserAdapter extends ArrayAdapter<User> {
             TextView nameTV = view.findViewById(R.id.tvName);
             TextView ageTV = view.findViewById(R.id.tvAge);
 
-            User user = getItem(position);
+            User user = (User) getItem(position);
 
             avatarIV.setImageResource(user.getAvatarRes());
             nameTV.setText(user.getName());
@@ -61,7 +57,7 @@ public class UserAdapter extends ArrayAdapter<User> {
 
     @Override
     public int getItemViewType(int position) {
-        if (getItem(position) == null) {
+        if (getItem(position) instanceof Banner) {
             return BANNER_TYPE;
         }
         return USER_TYPE;
